@@ -1,0 +1,28 @@
+//// ------------------------------------------------------
+//// THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+//// ------------------------------------------------------
+
+Project "NestJS Init Code" {
+  database_type: 'MySQL'
+  Note: 'Project Example'
+}
+
+Table user {
+  id Int [pk, increment]
+  username String [unique, not null]
+  password String [not null]
+  fullname String [not null]
+  is_active Boolean [not null, default: true]
+  created_at DateTime [default: `now()`, not null]
+  updated_at DateTime [not null]
+  deleted_at DateTime
+}
+
+Table device {
+  id Int [pk, increment]
+  device_name String [not null]
+  is_active Boolean [not null, default: true]
+  created_at DateTime [default: `now()`, not null]
+  updated_at DateTime [not null]
+  deleted_at DateTime
+}

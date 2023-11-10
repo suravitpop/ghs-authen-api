@@ -6,6 +6,41 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "mysql"
   url      = env("DATABASE_URL")
+}
+
+generator erd {
+  provider                  = "prisma-erd-generator"
+  theme                     = "neutral"
+  includeRelationFromFields = true
+}
+
+generator dbml {
+  provider            = "prisma-dbml-generator"
+  output              = "./dbml"
+  outputName          = "database.dbml"
+  projectName         = "NestJS Init Code"
+  projectDatabaseType = "MySQL"
+  projectNote         = "Project Example"
+}
+
+model user {
+  id         Int       @id @default(autoincrement())
+  username   String    @unique
+  password   String
+  fullname   String
+  is_active  Boolean   @default(true)
+  created_at DateTime  @default(now())
+  updated_at DateTime  @updatedAt
+  deleted_at DateTime? @db.DateTime()
+}
+
+model device {
+  id          Int       @id @default(autoincrement())
+  device_name String
+  is_active   Boolean   @default(true)
+  created_at  DateTime  @default(now())
+  updated_at  DateTime  @updatedAt
+  deleted_at  DateTime? @db.DateTime()
 }
