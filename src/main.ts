@@ -6,11 +6,11 @@ import * as basicAuth from 'express-basic-auth';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   // Allow domain to access this API
-  // app.enableCors({
-  //   origin: [process.env.CORS_URL],
-  //   methods: ['GET', 'POST', 'PATCH', 'DELETE'],
-  //   credentials: true,
-  // });
+  app.enableCors({
+    origin: [process.env.CORS_URL],
+    methods: ['GET', 'POST', 'PATCH', 'DELETE'],
+    credentials: true,
+  });
   app.use(
     // Paths you want to protect with basic auth
     '/api*',

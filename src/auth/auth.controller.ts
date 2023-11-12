@@ -7,6 +7,7 @@ import {
   Post,
   Get,
   UseGuards,
+  Response,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { ApiOkResponse, ApiTags, ApiBearerAuth } from '@nestjs/swagger';
@@ -23,6 +24,12 @@ export class AuthController {
   @ApiOkResponse({ type: AuthEntity })
   login(@Body() { username, password }: LoginDto) {
     return this.authService.login(username, password);
+  }
+
+  @Post('logout')
+  async logout(@Response() res): Promise<any> {
+    res.clearCookie('jwt');
+    return res.send('Logged out successfully');
   }
 
   @UseGuards(JwtAuthGuard)
