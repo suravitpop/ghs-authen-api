@@ -1,0 +1,46 @@
+version: '3'
+
+services:
+  db:
+    image: mysql:8.0.32
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_USER: ${MYSQL_USER_NAME}
+      MYSQL_PASSWORD: ${MYSQL_USER_PASSWORD}
+      MYSQL_ROOT_HOST: ${MYSQL_ROOT_HOST}
+    command: --bind-address=0.0.0.0
+      --lower_case_table_names=2
+      --sql-mode="STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION"
+      --skip-name-resolve
+      --default-authentication-plugin=mysql_native_password
+    restart: unless-stopped
+    volumes:
+      - ./server/mysql_data:/var/lib/mysql
+    ports:
+      - '127.0.0.1:3306:3306'
+    networks:
+      - dev_network
+    healthcheck:
+      test: ['CMD', 'mysqladmin', 'ping', '-h', 'localhost']
+      timeout: 60s
+      retries: 10
+  nginx:
+    image: nginx:1.23.3-alpine
+    restart: always
+    ports:
+      - '80:80'
+    volumes:
+      - ./docker-config/nginx/conf.d/nginx.conf:/etc/nginx/conf.d/default.conf
+    extra_hosts:
+      - 'host.docker.internal:host-gateway'
+    networks:
+      - dev_network
+
+networks:
+  dev_network:
+    driver: bridge
+
+volumes:
+  mysql_data:
+  web:
