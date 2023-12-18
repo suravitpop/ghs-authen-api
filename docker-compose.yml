@@ -33,6 +33,10 @@ services:
       - '443:443'
     volumes:
       - ./docker-config/nginx/conf.d/nginx.conf:/etc/nginx/conf.d/default.conf
+      - /etc/letsencrypt/live/api.mongkutwattana.co.th/fullchain.pem:/etc/letsencrypt/live/api.mongkutwattana.co.th/fullchain.pem
+      - /etc/letsencrypt/live/api.mongkutwattana.co.th/privkey.pem:/etc/letsencrypt/live/api.mongkutwattana.co.th/privkey.pem
+      - /etc/letsencrypt/live/authennhso.mongkutwattana.co.th/fullchain.pem:/etc/letsencrypt/live/authennhso.mongkutwattana.co.th/fullchain.pem
+      - /etc/letsencrypt/live/authennhso.mongkutwattana.co.th/privkey.pem:/etc/letsencrypt/live/authennhso.mongkutwattana.co.th/privkey.pem
     extra_hosts:
       - 'host.docker.internal:host-gateway'
     networks:
